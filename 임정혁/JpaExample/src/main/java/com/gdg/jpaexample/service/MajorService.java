@@ -25,6 +25,35 @@ public class MajorService {
         return MajorInfoResponseDto.from(major);
     }
 
+    @Transactional(readOnly = true)
+    public MajorInfoResponseDto getMajor(Long majorId) {
+        Major major = majorRepository.findById(majorId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전공입니다."));
+
+        return MajorInfoResponseDto.from(major);
+    }
+
+    @Transactional(readOnly = true)
+    public java.util.List<MajorInfoResponseDto> getAllMajors() {
+        return majorRepository.findAll()
+                .stream()
+                .map(MajorInfoResponseDto::from)
+                .toList();
+    }
+
+    @Transactional
+    public MajorInfoResponseDto updateMajor(Long majorId, MajorSaveRequestDto majorSaveRequestDto) {
+        Major major = majorRepository.findById(majorId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전공입니다."));
+
+        // null이 아닌 필드만 업데이트 (PATCH 방식)
+        if (majorSaveRequestDto.getName() != null) {
+            major.updateName(majorSaveRequestDto.getName());
+        }
+
+        return MajorInfoResponseDto.from(major);
+    }
+
     @Transactional
     public void deleteMajor(Long majorId) {
         Major major = majorRepository.findById(majorId)

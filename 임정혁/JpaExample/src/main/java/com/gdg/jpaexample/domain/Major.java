@@ -29,4 +29,8 @@ public class Major {
     public Major(String name) {
         this.name = name;
     }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
 }
