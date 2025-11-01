@@ -14,12 +14,20 @@ public class ProfessorInfoResponseDto {
     private String majorName;
 
     public static ProfessorInfoResponseDto from(Professor professor) {
+        Long majorId = null;
+        String majorName = null;
+        
+        if (professor.getMajor() != null) {
+            majorId = professor.getMajor().getId();
+            majorName = professor.getMajor().getName();
+        }
+        
         return ProfessorInfoResponseDto.builder()
                 .id(professor.getId())
                 .name(professor.getName())
                 .email(professor.getEmail())
-                .majorId(professor.getMajor().getId())
-                .majorName(professor.getMajor().getName())
+                .majorId(majorId)
+                .majorName(majorName)
                 .build();
     }
 }
