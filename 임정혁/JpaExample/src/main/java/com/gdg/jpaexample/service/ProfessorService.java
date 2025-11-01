@@ -37,7 +37,7 @@ public class ProfessorService {
 
     @Transactional(readOnly = true)
     public ProfessorInfoResponseDto getProfessor(Long professorId) {
-        Professor professor = professorRepository.findById(professorId)
+        Professor professor = professorRepository.findByIdWithMajor(professorId)
                 .orElseThrow(() -> new IllegalArgumentException("요청하신 교수 정보를 찾을 수 없습니다."));
 
         return ProfessorInfoResponseDto.from(professor);
@@ -45,7 +45,7 @@ public class ProfessorService {
 
     @Transactional
     public ProfessorInfoResponseDto updateProfessor(Long professorId, ProfessorSaveRequestDto professorSaveRequestDto) {
-        Professor professor = professorRepository.findById(professorId)
+        Professor professor = professorRepository.findByIdWithMajor(professorId)
                 .orElseThrow(() -> new IllegalArgumentException("요청하신 교수 정보를 찾을 수 없습니다."));
 
         // null이 아닌 필드만 업데이트 (PATCH 방식)
@@ -68,7 +68,7 @@ public class ProfessorService {
 
     @Transactional
     public void deleteProfessor(Long professorId) {
-        Professor professor = professorRepository.findById(professorId)
+        Professor professor = professorRepository.findByIdWithMajor(professorId)
                 .orElseThrow(() -> new IllegalArgumentException("요청하신 교수 정보를 찾을 수 없습니다."));
         
         professorRepository.delete(professor);
@@ -76,7 +76,7 @@ public class ProfessorService {
 
     @Transactional(readOnly = true)
     public List<ProfessorInfoResponseDto> getAllProfessor() {
-        return professorRepository.findAll()
+        return professorRepository.findAllWithMajor()
                 .stream()
                 .map(ProfessorInfoResponseDto::from)
                 .toList();
