@@ -32,9 +32,15 @@ public class Professor {
         this.major = major;
     }
 
-    public void update(String name, String email, Major major) {
+    public void updateName(String name) {
         this.name = name;
+    }
+
+    public void updateEmail(String email) {
         this.email = email;
+    }
+
+    public void updateMajor(Major major) {
         this.major = major;
     }
 }

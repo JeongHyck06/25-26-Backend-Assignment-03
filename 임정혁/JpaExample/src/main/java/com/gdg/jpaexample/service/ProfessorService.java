@@ -48,10 +48,20 @@ public class ProfessorService {
         Professor professor = professorRepository.findById(professorId)
                 .orElseThrow(() -> new IllegalArgumentException("요청하신 교수 정보를 찾을 수 없습니다."));
 
-        Major major = majorRepository.findById(professorSaveRequestDto.getMajorId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전공입니다."));
+        // null이 아닌 필드만 업데이트 (PATCH 방식)
+        if (professorSaveRequestDto.getName() != null) {
+            professor.updateName(professorSaveRequestDto.getName());
+        }
 
-        professor.update(professorSaveRequestDto.getName(), professorSaveRequestDto.getEmail(), major);
+        if (professorSaveRequestDto.getEmail() != null) {
+            professor.updateEmail(professorSaveRequestDto.getEmail());
+        }
+
+        if (professorSaveRequestDto.getMajorId() != null) {
+            Major major = majorRepository.findById(professorSaveRequestDto.getMajorId())
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전공입니다."));
+            professor.updateMajor(major);
+        }
 
         return ProfessorInfoResponseDto.from(professor);
     }
