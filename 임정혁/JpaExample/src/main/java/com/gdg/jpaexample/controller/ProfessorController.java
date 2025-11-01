@@ -3,6 +3,7 @@ package com.gdg.jpaexample.controller;
 import com.gdg.jpaexample.dto.ProfessorInfoResponseDto;
 import com.gdg.jpaexample.dto.ProfessorSaveRequestDto;
 import com.gdg.jpaexample.service.ProfessorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ProfessorController {
     private final ProfessorService professorService;
 
     @PostMapping
-    public ResponseEntity<ProfessorInfoResponseDto> saveProfessor(@RequestBody ProfessorSaveRequestDto professorSaveRequestDto) {
+    public ResponseEntity<ProfessorInfoResponseDto> saveProfessor(@Valid @RequestBody ProfessorSaveRequestDto professorSaveRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(professorService.saveProfessor(professorSaveRequestDto));
     }
 
@@ -29,7 +30,7 @@ public class ProfessorController {
 
     @PatchMapping("/{professorId}")
     public ResponseEntity<ProfessorInfoResponseDto> updateProfessor(@PathVariable Long professorId,
-                                         @RequestBody ProfessorSaveRequestDto professorSaveRequestDto) {
+                                         @Valid @RequestBody ProfessorSaveRequestDto professorSaveRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(professorService.updateProfessor(professorId, professorSaveRequestDto));
     }
 

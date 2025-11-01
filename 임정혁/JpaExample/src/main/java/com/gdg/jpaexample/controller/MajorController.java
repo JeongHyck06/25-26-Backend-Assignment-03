@@ -3,6 +3,7 @@ package com.gdg.jpaexample.controller;
 import com.gdg.jpaexample.dto.MajorInfoResponseDto;
 import com.gdg.jpaexample.dto.MajorSaveRequestDto;
 import com.gdg.jpaexample.service.MajorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class MajorController {
     private final MajorService majorService;
 
     @PostMapping
-    public ResponseEntity<MajorInfoResponseDto> saveMajor(@RequestBody MajorSaveRequestDto majorSaveRequestDto) {
+    public ResponseEntity<MajorInfoResponseDto> saveMajor(@Valid @RequestBody MajorSaveRequestDto majorSaveRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(majorService.saveMajor(majorSaveRequestDto));
     }
 
@@ -34,7 +35,7 @@ public class MajorController {
 
     @PatchMapping("/{majorId}")
     public ResponseEntity<MajorInfoResponseDto> updateMajor(@PathVariable Long majorId,
-                                                             @RequestBody MajorSaveRequestDto majorSaveRequestDto) {
+                                                             @Valid @RequestBody MajorSaveRequestDto majorSaveRequestDto) {
         return ResponseEntity.status(HttpStatus.OK).body(majorService.updateMajor(majorId, majorSaveRequestDto));
     }
 
