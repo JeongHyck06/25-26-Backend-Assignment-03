@@ -33,4 +33,28 @@ public class Major {
     public void updateName(String name) {
         this.name = name;
     }
+
+    /**
+     * 양방향 연관관계 동기화를 위한 편의 메서드
+     * Major에 Professor를 추가하면서 Professor의 major도 동기화
+     */
+    public void addProfessor(Professor professor) {
+        if (!this.professors.contains(professor)) {
+            this.professors.add(professor);
+        }
+        if (professor.getMajor() != this) {
+            professor.changeMajor(this);
+        }
+    }
+
+    /**
+     * 양방향 연관관계 동기화를 위한 편의 메서드
+     * Major에서 Professor를 제거하면서 Professor의 major도 null로 설정
+     */
+    public void removeProfessor(Professor professor) {
+        this.professors.remove(professor);
+        if (professor.getMajor() == this) {
+            professor.changeMajor(null);
+        }
+    }
 }

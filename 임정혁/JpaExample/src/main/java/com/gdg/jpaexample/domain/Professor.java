@@ -40,8 +40,23 @@ public class Professor {
         this.email = email;
     }
 
-    public void updateMajor(Major major) {
-        this.major = major;
+    /**
+     * 양방향 연관관계 동기화를 위한 편의 메서드
+     * Professor의 major를 변경하면서 Major의 professors 컬렉션도 동기화
+     */
+    public void changeMajor(Major newMajor) {
+        // 기존 major와의 관계 제거
+        if (this.major != null) {
+            this.major.getProfessors().remove(this);
+        }
+        
+        // 새로운 major 설정
+        this.major = newMajor;
+        
+        // 새 major의 컬렉션에 추가
+        if (newMajor != null && !newMajor.getProfessors().contains(this)) {
+            newMajor.getProfessors().add(this);
+        }
     }
 }
 

@@ -45,4 +45,3 @@ public class ProfessorController {
         return ResponseEntity.status(HttpStatus.OK).body(professorService.getAllProfessor());
     }
 }
-

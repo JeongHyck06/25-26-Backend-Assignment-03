@@ -25,10 +25,12 @@ public class ProfessorService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전공입니다."));
 
         Professor professor = Professor.builder()
-                .major(major)
                 .name(professorSaveRequestDto.getName())
                 .email(professorSaveRequestDto.getEmail())
                 .build();
+
+        // 양방향 연관관계 동기화
+        professor.changeMajor(major);
 
         professorRepository.save(professor);
 
@@ -60,7 +62,8 @@ public class ProfessorService {
         if (professorSaveRequestDto.getMajorId() != null) {
             Major major = majorRepository.findById(professorSaveRequestDto.getMajorId())
                     .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 전공입니다."));
-            professor.updateMajor(major);
+            // 양방향 연관관계 동기화
+            professor.changeMajor(major);
         }
 
         return ProfessorInfoResponseDto.from(professor);
